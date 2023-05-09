@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="age">Age:</label><br>
+        <input type="text" id="age" name="age"><br>
+        <label for="name">Weight:</label><br>
+        <input type="text" id="weight" name="weight"><br>
+        <label for="name">Height:</label><br>
+        <input type="text" id="height" name="height"><br>
+        <label for="bldgroup">Blood Group:</label>
+        <select id="bldgroup" name="bldgroup">
+            <option value="11">A+</option>
+            <option value="12">A-</option>
+            <option value="13">B+</option>
+            <option value="14">B-</option>
+            <option value="15">O+</option>
+            <option value="16">O-</option>
+            <option value="17">AB+</option>
+            <option value="18">AB-</option>
+        </select><br>
+        <label for="weightgain">Weight Gain:</label>
+        <input type="checkbox" id="wgain" name="weightgain" value="1"><br>
+        <label for="hairgrowth">Hair Growth:</label>
+        <input type="checkbox" id="hairgrowth" name="hairgrowth" value="1"><br>
+        <label for="skindark">Skin Darkening:</label>
+        <input type="checkbox" id="skindark" name="skindark" value="1"><br>
+        <label for="hairloss">Hair Loss:</label>
+        <input type="checkbox" id="hairloss" name="hairloss" value="1"><br>
+        <label for="pimples">Pimples:</label>
+        <input type="checkbox" id="pimples" name="pimples" value="1"><br>
+        <label for="fast Food">Hair Loss:</label>
+        <input type="checkbox" id="fastfood" name="fastfood" value="1"><br>
+        <button type="submit"> Predict </button>
+    </form>
+</body>
+</html>
