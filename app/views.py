@@ -1,29 +1,36 @@
+import os
+import joblib
 from django.shortcuts import render
-from .prediction import PCOS_predict
+##from .forms import PCOSForm
 
-# Create your views here.
+def home(request):
+    return render(request,"index.html")
 
-def detection(request):
-    if request.method == 'POST':
+def results(request):
+    model = joblib.load(os.path.join(os.path.dirname(__file__),'PCOS_Predictor_SVM.joblib'))
+    
+    lis =[]
 
-        age=int(request.POST['age'])
-        height=int(request.POST['height'])/100
-        weight=int(request.POST['weight'])
-        BMI=weight/pow(height,2)
-        bldgroup=int(request.POST['bldgroup'])
-        weightgain=int(request.POST.get('weightgain',0))
-        hairgrowth=int(request.POST.get('hairgrowth',0))
-        skindark=int(request.POST.get('skindark',0))
-        hairloss=int(request.POST.get('hairloss',0))
-        pimples=int(request.POST.get('pimples',0))
-        fastfood=int(request.POST.get('fastfood',0))
+    lis.append(request.GET['age'])
+    lis.append(request.GET['weight'])
+    lis.append(request.GET['height'])
+    lis.append(request.GET['bmi'])
+    lis.append(int(request.GET['bloodgroup']))
+    lis.append(request.GET['hairgrowth'])
+    lis.append(request.GET['hairloss'])
+    lis.append(request.GET['weightgain'])
+    lis.append(request.GET['skindarken'])
+    lis.append(request.GET['pimples'])
+    lis.append(request.GET['fastfood'])
 
-        if PCOS_predict(age,weight,height,BMI,bldgroup,weightgain,hairgrowth,skindark,hairloss,pimples,fastfood):
-            message="You have PCOS"
-        else:
-            message="You do not have PCOS"
-
-        return render(request,'index.html',{'message':message})
+    print(lis)
+    ans = model.predict([lis])
+    result_msg = ''
+    if ans == 0:
+        result_msg = 'You not likely to have PCOS.'
     else:
-        return render(request,'index.html')
+       result_msg = 'You are likely to have PCOS.'
+        
+        # Render the results template with the result message
+    return render(request, 'results.html', {'name':request.GET['name'],'result': result_msg})
 
